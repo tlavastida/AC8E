@@ -1,7 +1,7 @@
 /*
 chip8.cpp
 implementation of chip8 member functions
-
+http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/
 https://en.wikipedia.org/wiki/CHIP-8
 */
 
@@ -366,7 +366,7 @@ bool chip8::load_program(const char* filename) {
 
 	std::ifstream fin(filename, std::ios::binary | std::ios::ate);
 	if(!fin.is_open()) {
-		fputs("file error", stderr);
+		fputs("file error\n", stderr);
 		return false;
 	}
 
@@ -376,7 +376,7 @@ bool chip8::load_program(const char* filename) {
 
 	char* buffer = (char*)malloc(file_size);
 	if(buffer == NULL) {
-		fputs("malloc failed", stderr);
+		fputs("malloc failed\n", stderr);
 		return false;
 	}
 

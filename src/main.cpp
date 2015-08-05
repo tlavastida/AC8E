@@ -19,20 +19,23 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <SDL2/SDL.h>
 #include "chip8.h"
+#include "sdl_funcs.h"
+
+int process_args(const int& argc, char* argv[], char* str);
+
 
 const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_HEIGHT = 320;
 
 int main(int argc, char* argv[]) {
-
-	if(argc != 2) {
-		std::cout << "usage: " << argv[0] << " <filename>\n";
+	char window_title[50] = "\0";
+	if(process_args(argc,argv,window_title) < 0) {
 		return 1;
 	}
 
-	const char* filename = argv[1];
 
 	chip8 my_chip8;
 	if(!my_chip8.load_program(filename)) {
@@ -40,35 +43,35 @@ int main(int argc, char* argv[]) {
 		return 2;
 	}
 
-	SDL_Window* chip8_window = NULL;
-	SDL_Surface* chip8_surface = NULL;
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) { //initialize sdl
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+	SDL_Window* chip8_window = NULL;		//application window
+	SDL_Surface* chip8_surface = NULL;		//surface for application window
+
+	if(!setup_sdl(chip8_window,chip8_surface,SCREEN_WIDTH,SCREEN_HEIGHT,window_title)) {
+		printf("setup_sdl failed\n");
 		return 3;
 	}
+	//screen setup, do stuff with it
 
-	char str[50] = "chip8: ";
-	strcat(str,filename);
-
-	chip8_window = SDL_CreateWindow(str,SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
-									SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-
-	if(chip8_window == NULL) {
-		printf("window could not be created, SDL_Error: %s\n", SDL_GetError());
-		return 4;
-	}
-
-	chip8_surface = SDL_GetWindowSurface(chip8_window);
-	SDL_FillRect(chip8_surface, NULL, SDL_MapRGB(chip8_surface->format, 0x00,0x00,0x00));
-	SDL_UpdateWindowSurface(chip8_window);
 	SDL_Delay(2000);
 
-	//screen setup, do stuff with it
 
 	//cleanup
 	SDL_DestroyWindow(chip8_window);
 
 	SDL_Quit();
+
+	return 0;
+}
+
+int process_args(const int& argc, char* argv[], char* str) {
+
+	if(argc != 2) {
+		std::cout << "usage: " << argv[0] << " <filename>\n";
+		return -1;
+	}
+
+	strcat(str,"AC8E: ");
+	strcat(str,argv[1]);
 
 	return 0;
 }
