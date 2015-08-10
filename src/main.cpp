@@ -26,11 +26,8 @@ created by Thomas Lavastida - 2015
 #include <SDL2/SDL.h>
 #include "chip8.h"
 #include "sdl_funcs.h"
-#include <fstream>
-
 
 int process_args(const int& argc, char* argv[], std::string& str);
-void handle_events(SDL_Event event);
 
 int main(int argc, char* argv[]) {
 	std::string window_title = "AC8E: ";
@@ -49,18 +46,6 @@ int main(int argc, char* argv[]) {
 	sdl_chip8_window chip8_window(window_title);
 	//screen setup, do stuff with it
 
-/*
-	//Draw random screens
-	chip8_window.draw_pixels();
-	SDL_Delay(250);
-
-	for(int i = 0; i < 30; ++i) {
-		chip8_window.randomize_pixels();
-		chip8_window.draw_pixels();
-		SDL_Delay(250);
-	}
-*/
-
 	//main loop
 	while(!(chip8_window.quit)) {
 		my_chip8.emulate_cycle();
@@ -71,7 +56,6 @@ int main(int argc, char* argv[]) {
 		//handle events
 		chip8_window.handle_events(my_chip8);
 	}
-
 
 	return 0;
 }

@@ -63,8 +63,6 @@ public:
 
 	void draw_pixels();
 	void set_pixels(const chip8& c);
-	void randomize_pixels();
-
 	void handle_events(chip8& c);
 };
 

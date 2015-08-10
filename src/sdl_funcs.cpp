@@ -25,8 +25,6 @@ sdl_chip8_window::sdl_chip8_window(std::string str = "AC8E") {
 	quit = false;
 
 	setup_pixels();
-
-	srand(time(NULL)); //seed rng
 }
 
 sdl_chip8_window::~sdl_chip8_window() {
@@ -58,23 +56,13 @@ bool sdl_chip8_window::setup_sdl(SDL_Window*& w, SDL_Surface*& s, int scr_width,
 void sdl_chip8_window::setup_pixels() {
 	int x = 0;
 	int y = 0;
-	Uint32 even_color = BLACK;
-	Uint32 odd_color = WHITE;
 	for(int i = 0; i < 64*32; ++i) {
 		if(i != 0 && i % 64 == 0) {
 			x = 0;
 			y += 10;
-			std::swap(even_color,odd_color);
 		}
-
-		if(i % 2 == 0) {
-			pixels[i].set_vals(x,y,PIXEL_WIDTH,PIXEL_HEIGHT,even_color);
-		}
-		else {
-			pixels[i].set_vals(x,y,PIXEL_WIDTH,PIXEL_HEIGHT,odd_color);
-		}
+		pixels[i].set_vals(x,y,PIXEL_WIDTH,PIXEL_HEIGHT,BLACK);
 		x += 10;
-
 	}
 }
 
@@ -96,18 +84,6 @@ void sdl_chip8_window::set_pixels(const chip8& c) {
 	}
 }
 
-void sdl_chip8_window::randomize_pixels() {
-	char r;
-	for(int i = 0; i < 64*32; ++i) {
-		r = rand() % 2;
-		if(r == 0x00) {
-			pixels[i].set_color(BLACK);
-		}
-		else {
-			pixels[i].set_color(WHITE);
-		}
-	}
-}
 void sdl_chip8_window::handle_events(chip8& c) {
 
 	while(SDL_PollEvent(&event) != 0) {
@@ -164,6 +140,9 @@ void sdl_chip8_window::handle_events(chip8& c) {
 				break;
 				case SDLK_v:
 					c.key[0xF] = 1;
+				break;
+				case SDLK_ESCAPE:
+					quit = true;
 				break;
 				default: 
 				break; //nothing
