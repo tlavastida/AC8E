@@ -3,6 +3,9 @@ chip8.cpp
 implementation of chip8 member functions
 http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/
 https://en.wikipedia.org/wiki/CHIP-8
+
+created by Thomas Lavastida - 2015
+
 */
 
 #include "chip8.h"

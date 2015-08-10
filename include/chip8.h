@@ -3,6 +3,9 @@ chip8.h
 declaration of chip8 class for chip8 emulator
 http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/
 https://en.wikipedia.org/wiki/CHIP-8
+
+created by Thomas Lavastida - 2015
+
 */
 
 #ifndef CHIP8_H
@@ -25,19 +28,18 @@ private:
 	unsigned short i_reg; 			//Index register, actually 12 bits not 16
 	unsigned short pc_reg;			//program counter, actually 12 bits not 16
 
-	unsigned char gfx[64 * 32]; 	//pixels are black or white (1 or 0)
-
 	unsigned char delay_timer;		//timer counts down to 0 when > 0
 	unsigned char sound_timer;		//timer counts down to 0 when > 0
 
 	unsigned short stack[16];		//stack - stores return addresses
 	unsigned short sp;				//stack pointer - index of next address to return to
 
-	unsigned char key[16];			//current state of key
-
 	bool draw_flag; 				//set to true when something new has been drawn
 
 public:
+
+	unsigned char gfx[64 * 32]; 	//pixels are black or white (1 or 0)
+	unsigned char key[16];			//current state of key
 
 	chip8();
 	~chip8();
@@ -45,6 +47,10 @@ public:
 	void initialize();
 	void emulate_cycle();
 	bool load_program(const char* filename);
+
+	bool draw_new_frame() {
+		return draw_flag;
+	}
 
 };
 
