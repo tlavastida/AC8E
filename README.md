@@ -8,12 +8,14 @@ https://en.wikipedia.org/wiki/CHIP-8#Opcode_table
 
 # Progress
 1. CHIP-8 opcodes have been implemented
+2. Rendering has been implemented
+3. Keyboard input has been implemented
+4. Works decently on the ROMS I have tried
 
 # TODO
-1. Test opcodes for correct behavior
-2. Finish graphics implementation
-3. Add sound
-4. Test program on CHIP-8 ROMS
+1. Add sound
+2. Fine tune the program so it works cleanly
+3. Documentation
 
 # Building
   Dependencies - SDL2 (https://www.libsdl.org/)
