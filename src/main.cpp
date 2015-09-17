@@ -46,8 +46,13 @@ int main(int argc, char* argv[]) {
 	sdl_chip8_window chip8_window(window_title);
 	//screen setup, do stuff with it
 
+	Uint32 frame_start;
+	Uint32 ticks_per_sec = 800;
+
 	//main loop
 	while(!(chip8_window.quit)) {
+		frame_start = SDL_GetTicks();
+
 		my_chip8.emulate_cycle();
 		if(my_chip8.draw_new_frame()) {
 			chip8_window.set_pixels(my_chip8);
@@ -55,6 +60,11 @@ int main(int argc, char* argv[]) {
 		}
 		//handle events
 		chip8_window.handle_events(my_chip8);
+
+		if( ( SDL_GetTicks() - frame_start ) < ( 1000 / ticks_per_sec ) ) {
+			SDL_Delay( ( 1000 / ticks_per_sec ) - ( SDL_GetTicks() - frame_start ) );
+		}
+
 	}
 
 	return 0;
